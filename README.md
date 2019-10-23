@@ -1,7 +1,7 @@
 # PurePursuitControl
 FRC 2137 TORC's code for autonomous driving of our robot in preparation for the 2020 FRC game
 
-This code is built off of the guidance of FRC 1712's Pure Pursuit whitepaper
+This code is built off of the guidance and math of [FRC 1712's Pure Pursuit whitepaper](https://www.chiefdelphi.com/t/paper-implementation-of-the-adaptive-pure-pursuit-controller/166552)
 ## Components
 This code consists of 3 major portions: Path generation, robot position tracking (odometry), path following (pure pursuit), and velocity control
 ### Path Generation
@@ -12,11 +12,12 @@ Path generation takes a set of waypoints consisting of X and Y and generating a 
     We start by adding points every 6 inches between these points, so that we have more points to work with when manipulating the path
 * Path smoothing
 
-    We use a path smoothing function taken from FRC 2168's path generation code to smooth the path so that it is easier to follow
+    We use a path smoothing function taken from [FRC 2168's path generation code](https://github.com/KHEngineering/SmoothPathPlanner/blob/11059aa2ec314ba20b364aeea3c968aca2672b49/src/usfirst/frc/team2168/robot/FalconPathPlanner.java#L214) to smooth the path so that it is easier to follow
 * Add additional data to each point
 
     We add data to each point regarding how the robot will travel with it, and other characteristics
-These are the distance along the path, the curvature of the path at each point, the max velocity at each point (for slowing around turns), and the target velocity at each point (to allow smooth deceleration, accleration is handled when following the path)
+
+    These are the distance along the path, the curvature of the path at each point, the max velocity at each point (for slowing around turns), and the target velocity at each point (to allow smooth deceleration, accleration is handled when following the path)
 ### Robot Position Tracking
 To be able to follow the path, we need to know where the robot is when we update our path following
 * To do this, we use Field-Relative Positioning through Non-Linear State Estimation, also called odometry
