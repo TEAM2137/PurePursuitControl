@@ -1,5 +1,6 @@
 # PurePursuitControl
 FRC 2137 TORC's code for autonomous driving of our robot in preparation for the 2020 FRC game
+
 This code is built off of the guidance of FRC 1712's Pure Pursuit whitepaper
 ## Components
 This code consists of 3 major portions: Path generation, robot position tracking (odometry), path following (pure pursuit), and velocity control
