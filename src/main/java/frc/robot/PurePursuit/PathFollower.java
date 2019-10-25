@@ -98,7 +98,8 @@ public class PathFollower {
 
 
     public boolean isFinished() {
-        return closestPoint == path.get(path.size()-1); 
+        // return closestPoint == path.get(path.size()-1); // won't work, stopping will be wonky
+        return findFractionalIndex(lookaheadPoint, lookaheadPointSegmentStart) > path.get(path.size()-1).index;
     }
 
     /**

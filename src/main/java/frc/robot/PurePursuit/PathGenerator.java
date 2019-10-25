@@ -60,7 +60,7 @@ public class PathGenerator {
      */
 
     public ArrayList<PathPoint> generatePath(ArrayList<Point> waypoints, double pointSpacing, double pathMaxVelocity, 
-        double turnSlowConstant, double pathMaxAcceleration) {
+        double turnSlowConstant, double pathMaxAcceleration, double extensionLength) {
         
         ArrayList<Point> injectedPoints = new ArrayList<>();
         //Run through each current segment and inject points into it
@@ -89,7 +89,9 @@ public class PathGenerator {
         //Now the fun computing target velocity
         ArrayList<PathPoint> targetVelocityPath = addTargetVelocityToPoints(maxVelocityPath, pathMaxAcceleration);
 
-        return targetVelocityPath; 
+        //Extend the path to make stopping less janky
+        ArrayList<PathPoint> finalPath = addPathExtension(targetVelocityPath, extensionLength);
+        return finalPath; 
     }
 
     /**
@@ -134,7 +136,7 @@ public class PathGenerator {
 	 * @param tolerance
 	 * @return A smoothed path
 	 */
-	public ArrayList<Point> smoother(ArrayList<Point> pathToSmooth) {
+	private ArrayList<Point> smoother(ArrayList<Point> pathToSmooth) {
         double weight_data = pathAlpha;
         double weight_smooth = pathBeta;
         double tolerance = pathTolerance;
@@ -182,7 +184,7 @@ public class PathGenerator {
 	 * @param arr
 	 * @return A copy of the array
 	 */
-	public static double[][] doubleArrayCopy(double[][] arr)
+	private static double[][] doubleArrayCopy(double[][] arr)
 	{
 
 		//size first dimension of array
@@ -207,7 +209,7 @@ public class PathGenerator {
      * @param list List of points to convert
      * @return ArrayList of PathPoints
      */
-    public ArrayList<PathPoint> pointToPathPoint(ArrayList<Point> list) {
+    private ArrayList<PathPoint> pointToPathPoint(ArrayList<Point> list) {
         ArrayList<PathPoint> newList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             newList.add(new PathPoint(list.get(i), i));
@@ -344,5 +346,30 @@ public class PathGenerator {
         }
 
         return targetVelocityPath;
+    }
+
+    private ArrayList<PathPoint> addPathExtension(ArrayList<PathPoint> path, double extensionLength) {
+        PathPoint lastPoint = path.get(path.size()-1);
+        PathPoint secondToLastPoint = path.get(path.size()-2);
+
+        double distance = MathFunctions.findDistance(lastPoint, secondToLastPoint);
+
+        double distanceRatio = extensionLength/distance;
+
+        double x = ((1 + distanceRatio) * lastPoint.x + (distanceRatio * secondToLastPoint.x));
+
+        double y = ((1 + distanceRatio) * lastPoint.y + (distanceRatio * secondToLastPoint.y));
+
+        PathPoint newPoint = new PathPoint(path.size(), x, y);
+        newPoint.curvature = 0;
+        newPoint.distanceAlongPath = lastPoint.distanceAlongPath + extensionLength;
+        newPoint.maxVelocity = 0;
+        newPoint.targetVelocity = 0;
+        newPoint.index = path.size();
+
+        ArrayList<PathPoint> finalPath = path;
+        finalPath.add(newPoint);
+
+        return finalPath;
     }
 }

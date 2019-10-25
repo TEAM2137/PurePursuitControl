@@ -45,6 +45,7 @@ public class Robot extends TimedRobot {
   public static double maxAccelerationPathGen = 8.0; //max acceleration for path generation, so essentally decel. I decided inPerSec
   //These might actually be the same, I'm unsure
   public static double maxAccelerationPathFollow = 8.0; //max acceleration when path following, so actaully accel. I decided inPerSec
+  public static double pathExtensionLength = 10.0;
   public static double lookaheadDistance = 20.0; //12-25 in inches of how far to aim ahead
   public static double trackWidth = 25.0; //distance between wheels of robot side-to-side plus a couple to account for scrub
   public static double kv = 0.0; //velocity control constant, around 1/top robot speed

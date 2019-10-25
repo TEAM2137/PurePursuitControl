@@ -166,7 +166,7 @@ public class DriveTrain extends Subsystem {
     this.leftVelocityControlTarget = leftVelocityControlTarget;
     double targetChange = leftVelocityControlTarget - leftVelocityPreviousTarget;
     double timeChange = (System.currentTimeMillis() - leftVelocityLastCallTime) / 1000; //time in seconds
-    leftVelocityControlAccel = targetChange / timeChange;
+    this.leftVelocityControlAccel = targetChange / timeChange;
 ;  }
 
   /**
@@ -177,7 +177,7 @@ public class DriveTrain extends Subsystem {
     this.rightVelocityControlTarget = rightVelocityControlTarget;
     double targetChange = rightVelocityControlTarget - rightVelocityPreviousTarget;
     double timeChange = (System.currentTimeMillis() - rightVelocityLastCallTime) * 1000; //time in seconds
-    rightVelocityControlAccel = targetChange / timeChange;
+    this.rightVelocityControlAccel = targetChange / timeChange;
   }
 
   public void enableAutonVelocityControl(boolean enabled) {

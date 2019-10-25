@@ -34,7 +34,7 @@ public class FollowPath extends Command {
     this.driveTrain = driveTrain;
 
     path = PathGenerator.GetInstance().generatePath(waypoints, Robot.pointSpacing, Robot.maxVelocity, 
-      Robot.turnSlowConstant, Robot.maxAccelerationPathGen);
+      Robot.turnSlowConstant, Robot.maxAccelerationPathGen, Robot.pathExtensionLength);
   }
 
   // Called just before this Command runs the first time
