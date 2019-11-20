@@ -27,7 +27,7 @@ public class DriveTrain extends Subsystem {
   public double ka = 0.002; //acceleration constant for velocity control, start around 0.002
   public double kp = 0.01; //p constant for velocity control
 
-  public double countsPerInch = 180; // TODO: update
+  public double countsPerInch = 180;
 
   TalonSRX leftMotor = new TalonSRX(22);
   TalonSRX rightMotor = new TalonSRX(10);
